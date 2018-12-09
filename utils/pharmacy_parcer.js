@@ -10,6 +10,11 @@ let parce_func = (arr) =>{
         } else {
             item.needToOrderCount = 0;
         }
+
+        if(item.itemsAvailable<=3){
+            item.needToOrderCount+=5;
+        }
+        
     });
     return arr;
 }
