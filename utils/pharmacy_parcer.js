@@ -1,22 +1,28 @@
 
-let parce_func = (arr) =>{
+let parce_func = (arr) => {
     arr.forEach(item => {
         let totalOrdersCount = 0;
-        item.orderDtails.forEach(order =>{
-            totalOrdersCount +=order.ItemsCount;
+        item.orderDtails.forEach(order => {
+            totalOrdersCount += order.ItemsCount;
         });
-        if(totalOrdersCount>=item.itemsAvailable) {
-            item.needToOrderCount = totalOrdersCount*2;
-        } else {
-            item.needToOrderCount = 0;
+
+        let onePercent = item.itemsAvailable / 100
+        let orderedItemsPercent = totalOrdersCount / onePercent
+
+        if (orderedItemsPercent > 60) {
+            item.needToOrderCount = Math.round(orderedItemsPercent * onePercent)
+        }
+        if ((orderedItemsPercent < 60) && (orderedItemsPercent > 30)) {
+            item.needToOrderCount = Math.round((orderedItemsPercent * onePercent) / 2)
+        }
+        if (orderedItemsPercent < 30) {
+            item.needToOrderCount = 0
         }
 
-        if(item.itemsAvailable<=3){
-            item.needToOrderCount+=5;
-        }
-        
-    });
-    return arr;
+        // Math.round(item.needToOrderCount)
+        console.log(item.needToOrderCount)
+    })
+    return arr
 }
 
-module.exports = {parce_func};
+module.exports = { parce_func }
